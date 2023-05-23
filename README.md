@@ -4,13 +4,13 @@
 
 * To-Do List App: Create a simple to-do list app with basic UI elements such as lists, buttons, and text input fields. Implement basic functionalities like adding, editing, and deleting tasks.
 
+* Quotes Generator App: Design an app that generates random quotes using ZenQuotes API and displays them in a interactive way. 
+
 * Weather App: Create a weather app that displays current weather conditions, forecasts, and weather-related information using a free weather API. Implement features like location-based weather data, weather animations, and customizable weather alerts.
 
 * Movie Review App: Design a movie review app that allows users to browse and search for movies, view movie details, and read and write reviews using a free movie database API. Implement features like movie recommendations, user ratings, and reviews.
 
 * News Reader App: Create a news reader app that fetches news articles from free news APIs, categorizes them based on topics or sources, and provides a clean and user-friendly reading experience. Implement features like bookmarking articles, offline reading, and personalized news recommendations.
-
-* Random Joke & Quotes Generator App: Design an app that generates random jokes using a free joke API and displays them in a fun and interactive way. Implement features like joke sharing, joke categories, and favorite joke saving.
 
 * Pet Finder App: Create an app that helps users find adoptable pets from local animal shelters or rescues using a free pet adoption API. Implement features like pet search filters, pet profiles with images and descriptions, and adoption application submission.
 
