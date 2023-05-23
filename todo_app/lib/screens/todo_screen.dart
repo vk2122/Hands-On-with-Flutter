@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ToDoScreen extends StatefulWidget {
   const ToDoScreen({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _ToDoScreenState extends State<ToDoScreen>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
+    _retrieveToDoLists(); // Retrieve stored lists on app launch
   }
 
   void _handleTabChange() {
@@ -34,6 +36,7 @@ class _ToDoScreenState extends State<ToDoScreen>
       setState(() {
         _todos.add(_newTodo);
         _newTodo = '';
+        _storeToDoLists(); // Store updated lists
       });
     }
   }
@@ -41,6 +44,7 @@ class _ToDoScreenState extends State<ToDoScreen>
   void _removeToDo(int index) {
     setState(() {
       _todos.removeAt(index);
+      _storeToDoLists(); // Store updated lists
     });
   }
 
@@ -71,6 +75,7 @@ class _ToDoScreenState extends State<ToDoScreen>
                   setState(() {
                     _todos[index] = updatedTodo;
                     Navigator.of(context).pop();
+                    _storeToDoLists(); // Store updated lists
                   });
                 },
               ),
@@ -78,6 +83,20 @@ class _ToDoScreenState extends State<ToDoScreen>
           );
         },
       );
+    });
+  }
+
+  Future<void> _storeToDoLists() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('todos', _todos);
+    await prefs.setStringList('completed', _completed);
+  }
+
+  Future<void> _retrieveToDoLists() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _todos = prefs.getStringList('todos') ?? [];
+      _completed = prefs.getStringList('completed') ?? [];
     });
   }
 
@@ -131,13 +150,12 @@ class _ToDoScreenState extends State<ToDoScreen>
             key: Key(_todos[index]),
             onDismissed: (direction) {
               if (direction == DismissDirection.endToStart) {
-                setState(() {
-                  _todos.removeAt(index);
-                });
+                _removeToDo(index);
               } else if (direction == DismissDirection.startToEnd) {
                 setState(() {
                   _completed.add(_todos[index]);
                   _todos.removeAt(index);
+                  _storeToDoLists(); // Store updated lists
                 });
               }
             },
@@ -259,6 +277,7 @@ class _ToDoScreenState extends State<ToDoScreen>
               onPressed: () {
                 setState(() {
                   _completed.clear();
+                  _storeToDoLists(); // Store updated lists
                 });
               },
               child: const Icon(Icons.clear),
