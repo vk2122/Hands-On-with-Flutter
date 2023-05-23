@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class toDoScreen extends StatefulWidget {
-  const toDoScreen({super.key});
+class ToDoScreen extends StatefulWidget {
+  const ToDoScreen({Key? key}) : super(key: key);
 
   @override
-  State<toDoScreen> createState() => _toDoScreenState();
+  _ToDoScreenState createState() => _ToDoScreenState();
 }
 
-class _toDoScreenState extends State<toDoScreen> {
+class _ToDoScreenState extends State<ToDoScreen>
+    with SingleTickerProviderStateMixin {
   List<String> _todos = [];
   List<String> _completed = [];
   String _newTodo = '';
+  late TabController _tabController;
+  bool _isAddingTodo = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabChange);
+  }
+
+  void _handleTabChange() {
+    setState(() {
+      _isAddingTodo = _tabController.index == 0;
+    });
+  }
 
   void _addToDo() {
     if (_newTodo.isNotEmpty) {
@@ -35,7 +51,7 @@ class _toDoScreenState extends State<toDoScreen> {
         builder: (BuildContext context) {
           String updatedTodo = _todos[index];
           return AlertDialog(
-            title: Text('Edit Task'),
+            title: const Text('Edit Task'),
             content: TextField(
               onChanged: (value) {
                 updatedTodo = value;
@@ -44,13 +60,13 @@ class _toDoScreenState extends State<toDoScreen> {
             ),
             actions: [
               TextButton(
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text('Save'),
+                child: const Text('Save'),
                 onPressed: () {
                   setState(() {
                     _todos[index] = updatedTodo;
@@ -66,10 +82,13 @@ class _toDoScreenState extends State<toDoScreen> {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //Adapting Mobile Screen Aspect Ratio - we use MediaQuery
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     double textSize = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
@@ -77,101 +96,174 @@ class _toDoScreenState extends State<toDoScreen> {
         title: Text(
           'ToDo List',
           style: GoogleFonts.lato(
-              fontWeight: FontWeight.bold, fontSize: 20 * textSize),
+            fontWeight: FontWeight.bold,
+            fontSize: 20 * textSize,
+          ),
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
         centerTitle: true,
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Ongoing'),
+            Tab(text: 'Completed'),
+          ],
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: TabBarView(
+        controller: _tabController,
         children: [
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-              height: height / 2.5,
-              width: width,
-              child: ListView.builder(
-                itemCount: _todos.length,
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    key: Key(_todos[index]),
-                    onDismissed: (direction) {
-                      _removeToDo(index);
-                    },
-                    background: Container(
-                      color: Colors.green,
-                      child: Icon(Icons.check, color: Colors.white),
-                      alignment: Alignment.centerRight,
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1.5, color: Colors.grey)),
-                      child: ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(_todos[index]),
-                            IconButton(
-                              icon: Icon(Icons.edit, color: Colors.black),
-                              onPressed: () {
-                                _editTodo(index);
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+          _buildOngoingTab(),
+          _buildCompletedTab(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Add new task'),
-                content: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      _newTodo = value;
-                    });
-                  },
-                  onSubmitted: (value) {
-                    _addToDo();
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'New Todo',
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                    ),
-                    child: const Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _addToDo();
-                    },
-                  ),
-                ],
-              );
+    );
+  }
+
+  Widget _buildOngoingTab() {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: _todos.length,
+        itemBuilder: (context, index) {
+          return Dismissible(
+            key: Key(_todos[index]),
+            onDismissed: (direction) {
+              if (direction == DismissDirection.endToStart) {
+                setState(() {
+                  _todos.removeAt(index);
+                });
+              } else if (direction == DismissDirection.startToEnd) {
+                setState(() {
+                  _completed.add(_todos[index]);
+                  _todos.removeAt(index);
+                });
+              }
             },
+            confirmDismiss: (direction) async {
+              if (direction == DismissDirection.endToStart) {
+                return true;
+              } else if (direction == DismissDirection.startToEnd) {
+                return true;
+              }
+              return false;
+            },
+            background: Container(
+              color: Colors.green,
+              child: const Icon(Icons.check, color: Colors.white),
+              alignment: Alignment.centerRight,
+            ),
+            secondaryBackground: Container(
+              color: Colors.red,
+              child: const Icon(Icons.delete, color: Colors.white),
+              alignment: Alignment.centerLeft,
+            ),
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.5, color: Colors.grey),
+              ),
+              child: ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(_todos[index]),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.grey),
+                      onPressed: () {
+                        _editTodo(index);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
         },
-        child: Icon(Icons.add),
       ),
+      floatingActionButton: _isAddingTodo
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Add new task'),
+                      content: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _newTodo = value;
+                          });
+                        },
+                        onSubmitted: (value) {
+                          _addToDo();
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'New Todo',
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.headline6,
+                          ),
+                          child: const Text('Ok'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            _addToDo();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
+    );
+  }
+
+  Widget _buildCompletedTab() {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: _completed.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+            decoration: BoxDecoration(
+              border: Border.all(width: 1.5, color: Colors.grey),
+            ),
+            child: ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    _completed[index],
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: _tabController.index == 1 && _completed.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  _completed.clear();
+                });
+              },
+              child: const Icon(Icons.clear),
+            )
+          : null,
     );
   }
 }
