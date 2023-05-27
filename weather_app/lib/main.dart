@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: MyHomePage(),
+      home: WeatherScreen(),
     );
   }
 }
