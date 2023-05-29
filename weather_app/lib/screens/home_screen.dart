@@ -50,13 +50,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
       appBar: AppBar(
         title: Text('Weather App'),
         centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue, Colors.lightBlue],
+            colors: [Colors.lightBlueAccent, Colors.blue],
           ),
         ),
         child: Column(
@@ -78,12 +79,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             location = value;
                           });
                         },
+                        style: TextStyle(color: Colors.blue),
                         decoration: InputDecoration(
                           hintText: 'Enter Location',
+                          hintStyle: TextStyle(color: Colors.blue),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
                         ),
                       ),
                     ),
@@ -92,7 +98,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         fetchWeatherData(location);
                       },
                       icon: Icon(Icons.search),
-                      color: Colors.blue,
+                      color: Colors.white,
                     ),
                   ],
                 ),
@@ -104,6 +110,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: Card(
+                color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -114,6 +121,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          color: Colors.blue,
                         ),
                       ),
                       SizedBox(height: 10),
@@ -121,6 +129,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         'Location: $location',
                         style: TextStyle(
                           fontSize: 16,
+                          color: Colors.black87,
                         ),
                       ),
                       SizedBox(height: 10),
@@ -128,6 +137,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         'Weather: $weather',
                         style: TextStyle(
                           fontSize: 16,
+                          color: Colors.black87,
                         ),
                       ),
                     ],
@@ -138,12 +148,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          fetchWeatherData(location);
-        },
-        child: isLoading ? CircularProgressIndicator() : Icon(Icons.refresh),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(right: 16),
+        child: FloatingActionButton(
+          onPressed: () {
+            fetchWeatherData(location);
+          },
+          child: isLoading ? CircularProgressIndicator() : Icon(Icons.refresh),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
