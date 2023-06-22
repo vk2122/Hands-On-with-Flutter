@@ -43,11 +43,8 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        toolbarHeight: 0,
-        elevation: 0,
-        backgroundColor: Color(0xff424d5d),
-      ),
+      appBar:
+          AppBar(toolbarHeight: 0, elevation: 0, backgroundColor: Colors.black),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -55,10 +52,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: Color(0xffc3c8cb),
+                    color: Colors.grey,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: TextField(
                           controller: searchCtrl,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Search any city name....",
                             border: InputBorder.none,
                           ),
@@ -83,29 +80,29 @@ class _HomePageState extends State<HomePage> {
                                 });
                               }
                             },
-                            child: Icon(Icons.search)),
+                            child: const Icon(Icons.search)),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Text(
                   "$name",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Jost',
-                      color: Color(0xffc3c8cb),
+                      color: Colors.black,
                       fontSize: 24),
                 ),
-                Text(
+                const Text(
                   "TODAY",
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Jost',
-                      color: Color(0xffc3c8cb),
+                      color: Colors.black,
                       fontSize: 12),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Image.network(
                   "https://openweathermap.org/img/wn/$icon@2x.png",
                   height: 100,
@@ -113,75 +110,75 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Text(
                   "$desc",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Jost',
-                      color: Color(0xffc3c8cb),
+                      color: Colors.black,
                       fontSize: 18),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           "Temperature",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 16),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           "$temperature°C",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 18),
                         ),
                       ],
                     ),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           "Wind Speed",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 16),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           "$windspeed km/h",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 18),
                         ),
                       ],
                     ),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           "Humidity",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 16),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           "$humidity%",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Jost',
-                              color: Color(0xffc3c8cb),
+                              color: Colors.black,
                               fontSize: 18),
                         ),
                       ],
