@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "754204100429",
+    "firebase_url": "https://led-app-cd2a0-default-rtdb.firebaseio.com",
+    "project_id": "led-app-cd2a0",
+    "storage_bucket": "led-app-cd2a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754204100429:android:b5c27252ca70bf7aa51904",
+        "android_client_info": {
+          "package_name": "com.example.led_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754204100429-cvldnl4njevi6ms26t8e1rhbufmjf456.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDunoinJ0Sz_RGRCcNycW6QNwbFgW6HQoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754204100429-cvldnl4njevi6ms26t8e1rhbufmjf456.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
