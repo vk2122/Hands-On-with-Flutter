@@ -1,13 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:spend_wise/widgets/custom_input_field.dart';
+
+import '../models/firebase_auth.dart';
 
 class registerScreen extends StatefulWidget {
-  const registerScreen({super.key});
+  const registerScreen({Key? key});
 
   @override
   State<registerScreen> createState() => _registerScreenState();
 }
 
 class _registerScreenState extends State<registerScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
+  Future<void> registerUser() async {
+    try {
+      await _authService.registerUser(
+        nameController.text,
+        emailController.text,
+        phoneNumberController.text,
+        passwordController.text,
+      );
+
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Registration Failed'),
+            content: Text(
+              'An error occurred during user registration. Please try again.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -18,12 +61,32 @@ class _registerScreenState extends State<registerScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: ElevatedButton.icon(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/login');
-          },
-          icon: Icon(Icons.arrow_back),
-          label: Text('Back')),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            nameInput(width, nameController),
+            emailInput(width, emailController),
+            phoneInput(width, phoneNumberController),
+            passwordInput(width, passwordController),
+            SizedBox(height: width * 0.05),
+            ElevatedButton(
+              onPressed: registerUser,
+              child: Text("Register"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, "/login");
+              },
+              child: Text(
+                "Already have an Account?",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

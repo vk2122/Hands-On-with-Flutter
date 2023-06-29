@@ -38,6 +38,64 @@ Widget emailInput(width, controller) {
   );
 }
 
+Widget nameInput(width, controller) {
+  return Align(
+    alignment: Alignment.center,
+    child: Container(
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      padding: const EdgeInsets.all(5),
+      width: width * 0.9,
+      height: width * 0.15,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+          width: width * 0.005,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          hintText: 'Enter your Name',
+          hintStyle: TextStyle(color: Colors.grey, fontSize: width * 0.043),
+        ),
+        keyboardType: TextInputType.name,
+      ),
+    ),
+  );
+}
+
+Widget phoneInput(width, controller) {
+  return Align(
+    alignment: Alignment.center,
+    child: Container(
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      padding: const EdgeInsets.all(5),
+      width: width * 0.9,
+      height: width * 0.15,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+          width: width * 0.005,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          hintText: 'Enter your Phone Number',
+          hintStyle: TextStyle(color: Colors.grey, fontSize: width * 0.043),
+        ),
+        keyboardType: TextInputType.phone,
+      ),
+    ),
+  );
+}
+
 Widget passwordInput(width, controller) {
   final passwordRegex =
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~]).{8,}$');

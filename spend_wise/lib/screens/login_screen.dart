@@ -57,16 +57,13 @@ class _loginScreenState extends State<loginScreen> {
             },
             child: const Text('Log In'),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, "/register");
-              },
-              child: Text(
-                'Already have an Account?',
-                style: TextStyle(color: Colors.black),
-              ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, "/register");
+            },
+            child: Text(
+              "Don't have an Account?",
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ],

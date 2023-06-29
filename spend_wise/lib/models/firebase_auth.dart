@@ -29,3 +29,35 @@ Future<bool> signInWithEmailAndPassword(
     return false;
   }
 }
+
+class FirebaseAuthService {
+  Future<void> registerUser(
+    String name,
+    String email,
+    String phoneNumber,
+    String password,
+  ) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      print('User registered successfully: ${userCredential.user?.email}');
+    } catch (e) {
+      print('Error during user registration: $e');
+      throw e; // Throw the error for the calling code to handle
+    }
+  }
+}
+
+Future<void> sendPasswordResetEmail(String email) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    // Password reset email sent successfully
+  } catch (e) {
+    // Error occurred while sending password reset email
+    throw e;
+  }
+}
