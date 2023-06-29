@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "716036036681",
+    "firebase_url": "https://spend-wise-fc38b-default-rtdb.firebaseio.com",
+    "project_id": "spend-wise-fc38b",
+    "storage_bucket": "spend-wise-fc38b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716036036681:android:8ecb0e605fa7c993f3c798",
+        "android_client_info": {
+          "package_name": "com.example.spend_wise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716036036681-jaqmhci2nbpb0cd1bpam52elel1oc17d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4y4lWcEguFgAcfiifU00jxMLQHB75FDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716036036681-jaqmhci2nbpb0cd1bpam52elel1oc17d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
