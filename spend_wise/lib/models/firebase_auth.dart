@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 Future<bool> signInWithEmailAndPassword(
   String email,
@@ -31,6 +32,8 @@ Future<bool> signInWithEmailAndPassword(
 }
 
 class FirebaseAuthService {
+  final DatabaseReference _database = FirebaseDatabase.instance.ref();
+
   Future<void> registerUser(
     String name,
     String email,
@@ -43,6 +46,14 @@ class FirebaseAuthService {
         email: email,
         password: password,
       );
+
+      // Save user details in Firebase Realtime Database
+      String userId = userCredential.user!.uid;
+      _database.child('users').child(userId).set({
+        'name': name,
+        'email': email,
+        'phoneNumber': phoneNumber,
+      });
 
       print('User registered successfully: ${userCredential.user?.email}');
     } catch (e) {
