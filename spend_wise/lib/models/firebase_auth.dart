@@ -18,7 +18,6 @@ Future<bool> signInWithEmailAndPassword(
     if (e is FirebaseAuthException) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         errorMessage = 'Invalid email or password.';
-        // Show the Snackbar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),
@@ -26,7 +25,6 @@ Future<bool> signInWithEmailAndPassword(
         );
       }
     }
-    // Authentication failed
     return false;
   }
 }
@@ -58,7 +56,7 @@ class FirebaseAuthService {
       print('User registered successfully: ${userCredential.user?.email}');
     } catch (e) {
       print('Error during user registration: $e');
-      throw e; // Throw the error for the calling code to handle
+      throw e;
     }
   }
 }
