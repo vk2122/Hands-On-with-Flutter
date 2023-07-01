@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spend_wise/widgets/custom_navigation_bar.dart';
+
+import '../widgets/custom_drawer.dart';
 
 class homeScreen extends StatefulWidget {
   const homeScreen({Key? key});
@@ -9,17 +11,13 @@ class homeScreen extends StatefulWidget {
 }
 
 class _homeScreenState extends State<homeScreen> {
-  Future<void> _logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.pushReplacementNamed(context, '/login');
-    } catch (e) {
-      print('Error during logout: $e');
-    }
+  List<Widget> _buildScreen() {
+    return [];
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -27,12 +25,8 @@ class _homeScreenState extends State<homeScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _logout,
-          child: Text('Logout'),
-        ),
-      ),
+      drawer: drawer(context, width),
+      bottomNavigationBar: navBar(context),
     );
   }
 }
