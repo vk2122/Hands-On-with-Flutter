@@ -1,5 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:spend_wise/widgets/custom_navigation_bar.dart';
 
 import '../widgets/custom_drawer.dart';
 
@@ -11,8 +11,15 @@ class homeScreen extends StatefulWidget {
 }
 
 class _homeScreenState extends State<homeScreen> {
-  List<Widget> _buildScreen() {
-    return [];
+  final databaseReference = FirebaseDatabase.instance.ref();
+  Object? values = [];
+  void _readPersonalData() {
+    databaseReference.child('users').onValue.listen((event) {
+      setState(() {
+        values = event.snapshot.value;
+      });
+      print(values);
+    });
   }
 
   @override
@@ -25,8 +32,13 @@ class _homeScreenState extends State<homeScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
-      drawer: drawer(context, width),
-      bottomNavigationBar: navBar(context),
+      drawer: drawer(context, width, values),
+      //bottomNavigationBar: navBar(context),
+      body: Center(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _readPersonalData,
+        child: Icon(Icons.refresh),
+      ),
     );
   }
 }
