@@ -1,44 +1,49 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_drawer.dart';
+import '../widgets/navigation_bar.dart';
+import 'screen1.dart';
+import 'screen2.dart';
+import 'screen3.dart';
 
-class homeScreen extends StatefulWidget {
-  const homeScreen({Key? key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key});
 
   @override
-  State<homeScreen> createState() => _homeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> {
-  final databaseReference = FirebaseDatabase.instance.ref();
-  Object? values = [];
-  void _readPersonalData() {
-    databaseReference.child('users').onValue.listen((event) {
-      setState(() {
-        values = event.snapshot.value;
-      });
-      print(values);
-    });
+class _HomeScreenState extends State<HomeScreen> {
+  final _pageController = PageController(initialPage: 2);
+  int maxCount = 5;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
+
+  final List<Widget> bottomBarPages = [
+    const screen3(),
+    const screen2(),
+    const screen1(),
+    const screen2(),
+    const screen3(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
       extendBody: true,
-      appBar: AppBar(
-        title: Text('Home Screen'),
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: List.generate(
+            bottomBarPages.length, (index) => bottomBarPages[index]),
       ),
-      drawer: drawer(context, width, values),
-      //bottomNavigationBar: navBar(context),
-      body: Center(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _readPersonalData,
-        child: Icon(Icons.refresh),
-      ),
+      bottomNavigationBar: (bottomBarPages.length <= maxCount)
+          ? navigationBar(_pageController)
+          : null,
     );
   }
 }

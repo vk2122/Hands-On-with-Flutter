@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Widget drawer(BuildContext context, double width, values) {
+Widget drawer(BuildContext context, double width) {
   Future<void> _logout() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -30,9 +30,6 @@ Widget drawer(BuildContext context, double width, values) {
               print('camera clicked');
             },
           ),
-        ),
-        Text(
-          values.toString(),
         ),
         TextButton.icon(
             onPressed: _logout,

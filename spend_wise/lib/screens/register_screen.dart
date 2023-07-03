@@ -3,14 +3,14 @@ import 'package:spend_wise/widgets/custom_input_field.dart';
 
 import '../models/firebase_auth.dart';
 
-class registerScreen extends StatefulWidget {
-  const registerScreen({Key? key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key});
 
   @override
-  State<registerScreen> createState() => _registerScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _registerScreenState extends State<registerScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();

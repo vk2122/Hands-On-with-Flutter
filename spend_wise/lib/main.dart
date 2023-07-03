@@ -27,9 +27,9 @@ class MainApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             final user = snapshot.data;
             if (user != null) {
-              return homeScreen();
+              return HomeScreen();
             } else {
-              return loginScreen();
+              return LoginScreen();
             }
           } else {
             return CircularProgressIndicator();
@@ -37,10 +37,10 @@ class MainApp extends StatelessWidget {
         },
       ),
       routes: {
-        "/home": (context) => homeScreen(),
-        "/login": (context) => loginScreen(),
-        "/register": (context) => registerScreen(),
-        "/forgotPass": (context) => forgotPasswordScreen(),
+        "/home": (context) => HomeScreen(),
+        "/login": (context) => LoginScreen(),
+        "/register": (context) => RegisterScreen(),
+        "/forgotPass": (context) => ForgotPasswordScreen(),
       },
     );
   }

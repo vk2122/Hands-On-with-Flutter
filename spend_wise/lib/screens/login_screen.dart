@@ -3,14 +3,14 @@ import 'package:spend_wise/widgets/custom_input_field.dart';
 
 import '../models/firebase_auth.dart';
 
-class loginScreen extends StatefulWidget {
-  const loginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<loginScreen> createState() => _loginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _loginScreenState extends State<loginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

@@ -3,14 +3,14 @@ import 'package:spend_wise/widgets/custom_input_field.dart';
 
 import '../models/firebase_auth.dart';
 
-class forgotPasswordScreen extends StatefulWidget {
-  const forgotPasswordScreen({Key? key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key});
 
   @override
-  State<forgotPasswordScreen> createState() => _forgotPasswordScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _forgotPasswordScreenState extends State<forgotPasswordScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController emailController = TextEditingController();
 
   Future<void> resetPassword() async {

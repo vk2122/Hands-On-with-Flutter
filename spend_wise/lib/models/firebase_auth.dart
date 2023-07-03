@@ -10,7 +10,6 @@ Future<bool> signInWithEmailAndPassword(
   try {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    // Authentication successful
     return true;
   } catch (e) {
     // Handle authentication errors
