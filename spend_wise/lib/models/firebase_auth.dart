@@ -8,6 +8,7 @@ Future<bool> signInWithEmailAndPassword(
   BuildContext context,
 ) async {
   try {
+    // ignore: unused_local_variable
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     return true;
