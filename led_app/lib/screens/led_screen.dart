@@ -23,18 +23,10 @@ class _LedScreenState extends State<LedScreen> {
 
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp();
-    databaseReference = FirebaseDatabase.instance.reference();
-
-    // Reading initial value of bulbstate
-    databaseReference.child('bulbstate').once().then((DataSnapshot snapshot) {
-          bool? bulbState = snapshot.value as bool?;
-          setState(() {
-            _bulbState = bulbState ?? false;
-          });
-        } as FutureOr Function(DatabaseEvent value));
+    databaseReference = FirebaseDatabase.instance.ref();
 
     // Listen for changes in the bulb state from the database
-    databaseReference.child('bulbstate').onValue.listen((event) {
+    databaseReference.child('bulbstate/isOn').onValue.listen((event) {
       bool? bulbState = event.snapshot.value as bool?;
       setState(() {
         _bulbState = bulbState ?? false;
@@ -45,25 +37,57 @@ class _LedScreenState extends State<LedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _bulbState
-            ? Image.asset('assets/light-on.png')
-            : Image.asset('assets/light-off.png'),
+      appBar: AppBar(
+        title: const Text('Node Testing'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          bool newState = !_bulbState;
-          updateBulbState(newState);
-          setState(() {
-            _bulbState = newState;
-          });
-        },
-        child: _bulbState ? Icon(Icons.stop) : Icon(Icons.arrow_right_sharp),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _bulbState
+                ? Image.asset('assets/light-on.png')
+                : Image.asset('assets/light-off.png'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    final snackBar = _bulbState
+                        ? SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                                'Status of Bulb : ${_bulbState.toString()}'),
+                          )
+                        : SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text(
+                                'Status of Bulb : ${_bulbState.toString()}'),
+                          );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  child: const Text("Status"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    bool newState = !_bulbState;
+                    updateBulbState(newState);
+                    setState(() {
+                      _bulbState = newState;
+                    });
+                  },
+                  child: const Text("On/Off"),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   void updateBulbState(bool state) {
-    databaseReference.child('bulbstate').set(state);
+    databaseReference.child('bulbstate/isOn').set(state);
   }
 }

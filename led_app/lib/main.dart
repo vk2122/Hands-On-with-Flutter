@@ -6,7 +6,7 @@ import 'screens/led_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: LedScreen(),
+      home: const LedScreen(),
     );
   }
 }
